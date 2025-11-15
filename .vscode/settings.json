@@ -1,0 +1,22 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true
+                }
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "dpg-d4a1jq3ipnbc739bt6cg-a.oregon-postgres.render.com",
+            "port": 5432,
+            "sshOptions": {
+                "port": 22
+            },
+            "driver": "PostgreSQL",
+            "database": "assignment2_2iao",
+            "username": "assignment2_2iao_user",
+            "name": "dpg-d4a1jq3ipnbc739bt6cg-a"
+        }
+    ]
+}
