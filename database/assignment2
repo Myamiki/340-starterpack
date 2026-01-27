@@ -1,45 +1,66 @@
+--INSERT: Adding Tony Stark to the account table
 
+INSERT INTO account (
+  first_name,
+  last_name,
+  email,
+  password
+)
+VALUES (
+  'Tony',
+  'Stark',
+  'tony@starkent.com',
+  'Iam1ronM@n'
+);
 
--- ================================================================
--- 1️⃣ INSERT: Add Tony Stark to the account table
--- ================================================================
-INSERT INTO account (first_name, last_name, email, password)
-VALUES ('Tony', 'Stark', 'tony@starkent.com', 'Iam1ronM@n');
+-- 2. UPDATE: Changed Tony Stark account type to Admin
+-- Using the primary key (account_id)
 
--- ================================================================
--- 2️⃣ UPDATE: Change Tony Stark’s account_type to “Admin”
--- ================================================================
 UPDATE account
 SET account_type = 'Admin'
-WHERE email = 'tony@starkent.com';
+WHERE account_id = (
+  SELECT account_id
+  FROM account
+  WHERE email = 'tony@starkent.com'
+);
 
--- ================================================================
--- 3️⃣ DELETE: Remove Tony Stark’s record from the account table
--- ================================================================
+-- 3. DELETE: Removed Tony Stark from the account table
+-- Using the primary key (account_id)
+
 DELETE FROM account
-WHERE email = 'tony@starkent.com';
+WHERE account_id = (
+  SELECT account_id
+  FROM account
+  WHERE email = 'tony@starkent.com'
+);
 
--- ================================================================
--- UPDATE: Modify “GM Hummer” description using REPLACE
--- Replace “small interiors” with “a huge interior”
--- ================================================================
+-- 4. UPDATE: Modify GM Hummer description
+-- Replace "small interiors" with "a huge interior"
+
 UPDATE inventory
-SET inv_description = REPLACE(inv_description, 'small interiors', 'a huge interior')
-WHERE inv_make = 'GM' AND inv_model = 'Hummer';
+SET inv_description =
+REPLACE(inv_description, 'small interiors', 'a huge interior')
+WHERE inv_make = 'GM'
+AND inv_model = 'Hummer';
 
 
---SELECT: Inner Join between inventory and classification
--- Show make, model, and classification for vehicles in “Sport” category
-SELECT i.inv_make, i.inv_model, c.classification_name
+-- 5. SELECT: INNER JOIN inventory and classification to
+-- Show vehicles in the "Sport" category
+
+SELECT
+  i.inv_make,
+  i.inv_model,
+  c.classification_name
 FROM inventory i
 INNER JOIN classification c
 ON i.classification_id = c.classification_id
 WHERE c.classification_name = 'Sport';
 
+-- 6. UPDATE: Adding "/vehicles" to image file paths
 
--- UPDATE: Update inv_image and inv_thumbnail file paths
--- Add “/vehicles” into the file path
 UPDATE inventory
-SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
-    inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
+SET
+  inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
+  inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
+
 
