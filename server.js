@@ -1,3 +1,4 @@
+const baseController = require("./controllers/baseController")
 const expressLayouts = require("express-ejs-layouts");
 const express = require("express");
 const env = require("dotenv").config();
@@ -14,10 +15,8 @@ app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "layouts/layout"); // layout is not in root views folder
 
-// Route to index
-app.get("/", function (req, res) {
-  res.render("index", { title: "Home" });
-});
+// Route to index (using MVC controller)
+app.get("/", baseController.buildHome);
 
 const port = process.env.PORT;
 const host = process.env.HOST;
