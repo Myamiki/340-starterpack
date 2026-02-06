@@ -1,26 +1,35 @@
-const baseController = require("./controllers/baseController")
-const expressLayouts = require("express-ejs-layouts");
 const express = require("express");
-const env = require("dotenv").config();
-const app = express();
-const static = require("./routes/static");
+const expressLayouts = require("express-ejs-layouts");
+const baseController = require("./controllers/baseController");
+const utilities = require("./utilities");
+require("dotenv").config();
 
-// Serve static files like CSS, images, JS
+const app = express();
+
+// Static files
 app.use(express.static("public"));
 
-app.use(static);
-
-// View Engine and Templates
+// View engine
 app.set("view engine", "ejs");
 app.use(expressLayouts);
-app.set("layout", "layouts/layout"); // layout is not in root views folder
+app.set("layout", "layouts/layout");
 
-// Route to index (using MVC controller)
+// Home route
 app.get("/", baseController.buildHome);
 
-const port = process.env.PORT;
-const host = process.env.HOST;
+// Server
+const PORT = process.env.PORT || 5500;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
 
-app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`);
+// Error middleware
+app.use(async (err, req, res, next) => {
+  console.error(err);
+  const nav = await utilities.getNav();
+  res.status(500).render("errors/error", {
+    title: "Server Error",
+    nav,
+    message: err.message,
+  });
 });
