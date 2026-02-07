@@ -1,0 +1,66 @@
+<%# The title for this view is "Account Management" %>
+<% if (title) { %>
+    <h1>
+        <%= title %>
+    </h1>
+<% } else { res.redirect('/') } %>
+
+<!-- ADD THIS LINE TO DISPLAY THE FLASH MESSAGE -->
+<%- messages() %>
+<% if (errors) { const filtered=errors.array().filter(e=> e.msg !== 'Invalid value');
+    if (filtered.length) { %>
+    <ul class="flash-message notice">
+        <% filtered.forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+    </ul>
+<% } } %>
+
+<h2>Welcome <%= locals.accountData.account_firstname %></h2>
+<p><a href="/account/update/<%= locals.accountData.account_id %>">Edit Account Information</a></p>
+<% if (locals.accountData.account_type === 'Employee' || locals.accountData.account_type === 'Admin' ) { %>
+    <h3>Inventory Management</h3>
+    <p><a href="/inv/">Manage Inventory</a></p>
+<% } %>
+
+<hr>
+<h3>My Reviews</h3>
+
+<div class="management-view">
+<% if (locals.reviews && locals.reviews.length > 0) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Vehicle</th>
+                <th>Date</th>
+                <th>Review</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% reviews.forEach(function(review) { %>
+                <tr>
+                    <td>
+                        <%= review.inv_make %>
+                        <%= review.inv_model %>
+                    </td>
+                    <td>
+                        <%= new Date(review.review_date).toLocaleDateString() %>
+                    </td>
+                    <td>
+                        <%= review.review_text.substring(0, 40) %>...
+                    </td>
+                    <td>
+                        <a href="/review/edit/<%= review.review_id %>" title="Edit Review">Edit</a> |
+                        <a href="/review/delete/<%= review.review_id %>" title="Delete Review">Delete</a>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+    <% } else { %>
+        <p>You have not written any reviews yet.</p>
+        <% } %>
+</div>

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('../partials/head') %> <!-- Updated path -->
-  </head>
+  <%- include('../partials/head') %>
+
   <body>
-    <%- include('../partials/header') %> <!-- Updated path -->
-    <%- include('../partials/nav') %> <!-- Updated path -->
-    <main>
-      <%- body %> <!-- This is where the specific page content will be injected -->
-    </main>
-    <%- include('../partials/footer') %>  
+    <div id="wrapper">
+      <%- include('./partials/header') %>
+      <%- include('./partials/navigation') %>
+
+      <main>
+        <%- body %>
+      </main>
+
+      <%- include('./partials/footer') %>
+    </div>
   </body>
 </html>
-

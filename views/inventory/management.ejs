@@ -1,0 +1,42 @@
+<%# views/inventory/management.ejs %>
+<%# The title for this view is "Vehicle Management" %>
+  <% if (title) { %>
+    <h1>
+      <%= title %>
+    </h1>
+    <% } else { res.redirect('/') } %>
+
+    <%- messages() %>
+    <% if (errors) { const filtered=errors.array().filter(e=> e.msg !== 'Invalid value');
+      if (filtered.length) { %>
+      <ul class="flash-message notice">
+        <% filtered.forEach(error=> { %>
+          <li>
+            <%= error.msg %>
+          </li>
+          <% }) %>
+      </ul>
+      <% } } %>
+
+<div class="management-links">
+  <ul>
+    <li><a href="/inv/add-classification">Add New Classification</a></li>
+    <li><a href="/inv/add-inventory">Add New Vehicle</a></li>
+  </ul>
+</div>
+
+<hr>
+
+<%# New section for managing inventory items %>
+<h2>Manage Inventory</h2>
+<p>Choose a classification from the list to see the items.</p>
+
+<%- classificationSelect %> <%# An empty table that will be filled by JavaScript
+%>
+<table id="inventoryDisplay"></table>
+
+<%# This message will display if JavaScript is disabled %>
+<noscript>JavaScript must be enabled to use this page.</noscript>
+
+<%# Link to the new JavaScript file at the bottom of the view %>
+<script src="../../js/inventory.js"></script>
